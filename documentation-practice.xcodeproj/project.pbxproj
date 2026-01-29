@@ -16,6 +16,11 @@
 			path = "documentation-practice";
 			sourceTree = "<group>";
 		};
+		3FD97FD12F2BDA3C00DF9632 /* .github */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = .github;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +37,7 @@
 		3FD97F962F2BD4B300DF9632 = {
 			isa = PBXGroup;
 			children = (
+				3FD97FD12F2BDA3C00DF9632 /* .github */,
 				3FD97FA12F2BD4B300DF9632 /* documentation-practice */,
 				3FD97FA02F2BD4B300DF9632 /* Products */,
 			);
@@ -62,6 +68,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				3FD97FA12F2BD4B300DF9632 /* documentation-practice */,
+				3FD97FD12F2BDA3C00DF9632 /* .github */,
 			);
 			name = "documentation-practice";
 			packageProductDependencies = (
