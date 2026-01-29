@@ -26,7 +26,7 @@ jobs:
         run: |
           xcodebuild docbuild \
             -scheme "documentation-practice" \
-            -destination 'generic/platform=iOS' \
+            -destination 'generic/platform=macOS' \
             -derivedDataPath build
 
       - name: Convert DocC to HTML
