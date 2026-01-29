@@ -1,0 +1,43 @@
+name: Build & Publish DocC
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  docs:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Build DocC archive
+        run: |
+          xcodebuild docbuild \
+            -scheme "documentation-practice" \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build
+
+      - name: Convert DocC to HTML
+        run: |
+          xcrun docc convert \
+            build/Build/Products/Debug-iphoneos/documentation-practice.doccarchive \
+            --fallback-display-name "Documentation Practice" \
+            --fallback-bundle-identifier com.documentation.practice.docs \
+            --output-path docs-site
+
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs-site
