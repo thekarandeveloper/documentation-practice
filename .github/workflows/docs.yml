@@ -24,10 +24,14 @@ jobs:
 
       - name: Build DocC archive
         run: |
-          xcodebuild docbuild \
-            -scheme "documentation-practice" \
-            -destination 'generic/platform=macOS' \
-            -derivedDataPath build
+         xcodebuild docbuild \
+          -scheme documentation-practice \
+          -destination 'generic/platform=iOS' \
+          -derivedDataPath build \
+          CODE_SIGNING_ALLOWED=NO \
+          DEVELOPMENT_TEAM="" \
+          CODE_SIGN_IDENTITY="" \
+          PROVISIONING_PROFILE_SPECIFIER=""
 
       - name: Convert DocC to HTML
         run: |
