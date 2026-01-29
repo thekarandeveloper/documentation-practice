@@ -1,4 +1,4 @@
-name: Build & Publish DocC
+name: Build & Publish DocCs
 
 on:
   push:
