@@ -44,6 +44,103 @@ jobs:
             --transform-for-static-hosting \
             --allow-arbitrary-catalog-directories
 
+      # -----------------------------
+      # FIX 404 + SPA ROUTING
+      # -----------------------------
+
+      - name: Add web.config, .htaccess and update index.html
+        run: |
+
+          # web.config
+          cat > docs-site/web.config << 'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <system.webServer>
+              <rewrite>
+                <rules>
+                  <rule name="Handle History Mode and custom 404/500" stopProcessing="true">
+                    <match url="(.*)" />
+                    <conditions logicalGrouping="MatchAll">
+                      <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+                      <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" url="index.html" />
+                  </rule>
+                </rules>
+              </rewrite>
+            </system.webServer>
+          </configuration>
+          EOF
+
+
+          # .htaccess
+          cat > docs-site/.htaccess << 'EOF'
+          <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteBase /
+
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_FILENAME} !-d
+
+            RewriteRule ^.*$ index.html [L]
+          </IfModule>
+          EOF
+
+
+          # Updated index.html (base path fix)
+          cat > docs-site/index.html << 'EOF'
+          <!doctype html>
+          <html lang="en-US" class="no-js">
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+            <link rel="icon" href="/favicon.ico">
+            <link rel="mask-icon" href="/favicon.svg" color="#333333">
+            <title>Documentation</title>
+
+            <script>
+              var baseUrl = "/"
+            </script>
+
+            <script defer="defer" src="/js/chunk-vendors.bdb7cbba.js"></script>
+            <script defer="defer" src="/js/index.d2f6f6a9.js"></script>
+            <link href="/css/index.3a335429.css" rel="stylesheet">
+          </head>
+
+          <body data-color-scheme="auto">
+            <noscript>
+              <style>
+                .noscript {
+                  font-family: "SF Pro Display","SF Pro Icons","Helvetica Neue",Helvetica,Arial,sans-serif;
+                  margin: 92px auto 140px auto;
+                  text-align: center;
+                  width: 980px;
+                }
+                .noscript-title {
+                  color: #111;
+                  font-size: 48px;
+                  font-weight: 600;
+                  letter-spacing: -.003em;
+                  line-height: 1.08365;
+                  margin: 0 auto 54px auto;
+                  width: 502px;
+                }
+                #loading-placeholder { display: none }
+              </style>
+
+              <div class="noscript">
+                <h1 class="noscript-title">This page requires JavaScript.</h1>
+                <p>Please turn on JavaScript in your browser and refresh the page to view its content.</p>
+              </div>
+            </noscript>
+
+            <div id="app"></div>
+          </body>
+          </html>
+          EOF
+
+
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
