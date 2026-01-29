@@ -33,16 +33,16 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             PROVISIONING_PROFILE_SPECIFIER=""
 
-     - name: Convert DocC archive to HTML
-          run: |
-            xcrun docc convert \
-              build/Build/Products/Debug-iphoneos/documentation-practice.doccarchive \
-              --fallback-display-name "Documentation Practice" \
-              --fallback-bundle-identifier com.documentation.practice.docs \
-              --hosting-base-path documentation-practice \
-              --output-path docs-site \
-              --transform-for-static-hosting \
-              --allow-arbitrary-catalog-directories
+      - name: Convert DocC archive to HTML
+        run: |
+          xcrun docc convert \
+            build/Build/Products/Debug-iphoneos/documentation-practice.doccarchive \
+            --fallback-display-name "Documentation Practice" \
+            --fallback-bundle-identifier com.documentation.practice.docs \
+            --hosting-base-path documentation-practice \
+            --output-path docs-site \
+            --transform-for-static-hosting \
+            --allow-arbitrary-catalog-directories
 
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
