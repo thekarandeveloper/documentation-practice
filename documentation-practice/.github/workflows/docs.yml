@@ -36,8 +36,9 @@ jobs:
             --fallback-bundle-identifier com.documentation.practice.docs \
             --output-path docs-site
 
-      - name: Publish to GitHub Pages
+        - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs-site
+          force_orphan: true
