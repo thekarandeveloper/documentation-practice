@@ -142,7 +142,7 @@ jobs:
       # Only publish if data folder exists
       - name: Publish to GitHub Pages
         if: success()
-        uses: peaceiris/gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs-site
