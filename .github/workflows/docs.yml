@@ -55,7 +55,7 @@ jobs:
           xcrun docc convert "$DOCC_ARCHIVE" \
             --transform-for-static-hosting \
             --hosting-base-path documentation-practice \
-            --output-path docs-site
+            --output-path docs-site \
             --allow-arbitrary-catalog-directories
 
       - name: Verify generated site
