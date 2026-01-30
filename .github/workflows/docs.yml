@@ -56,6 +56,7 @@ jobs:
             --transform-for-static-hosting \
             --hosting-base-path documentation-practice \
             --output-path docs-site
+            --allow-arbitrary-catalog-directories
 
       - name: Verify generated site
         run: |
