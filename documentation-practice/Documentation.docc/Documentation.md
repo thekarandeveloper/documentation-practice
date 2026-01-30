@@ -1,4 +1,4 @@
-# Swipe
+# Documentation
 
 @Metadata {
   @DisplayName("Swipe iOS Documentation")
