@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -22,15 +22,18 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_16.4.app
 
-      - name: Build DocC archive
+      - name: Build DocC archive (no code signing)
         run: |
           xcodebuild docbuild \
             -scheme documentation-practice \
             -destination 'generic/platform=iOS' \
             -derivedDataPath build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_IDENTITY="" \
+            PROVISIONING_PROFILE_SPECIFIER=""
 
-      - name: Convert DocC archive to HTML
+      - name: Convert DocC archive to static HTML
         run: |
           xcrun docc convert \
             build/Build/Products/Debug-iphoneos/documentation-practice.doccarchive \
@@ -41,13 +44,6 @@ jobs:
             --transform-for-static-hosting \
             --allow-arbitrary-catalog-directories
 
-      # ✅ FIX ROOT PATH FOR GITHUB PAGES
-      - name: Fix GitHub Pages root
-        run: |
-          mv docs-site/documentation-practice/* docs-site/
-          rm -rf docs-site/documentation-practice
-
-      # ✅ KEEPING YOUR ORIGINAL DEPLOY METHOD
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
